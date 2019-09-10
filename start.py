@@ -21,7 +21,7 @@ class wikiHandler(xml.sax.ContentHandler):
         self.page = {"id": "", "title":"", "body":"", "links":"", "categories":"", "infobox":"", "refs":""}
         
 
-    # Call when an element stars
+    # Call when an element starts
     def startElement(self, tag, attributes):
         self.current_data = tag
         self.page["id"] = str(self.page_no)
