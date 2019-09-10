@@ -1,4 +1,4 @@
-import cPickle
+import pickle
 from heapq import *
 
 
@@ -23,9 +23,22 @@ Dictionary pointer associated with each file = dp_list[no]
 
 
 '''Merges posting lists maintaining the sorting order'''
-def merge_posting_lists(list_of_dicionaries):
-    #return sorted_dictionary
-    pass
+def merge_posting_lists(list_of_dictionaries):
+    # The list is in the following form:
+    # [{doc_id: [], doc_id: []},{doc_id: [], doc_id: []},{doc_id: [], doc_id: [], doc_id:[]}]
+    final_d = {}
+    for d in list_of_dictionaries:
+        final_d.update(d)
+    sorted_keys = sorted(final_d.keys(), key=lambda x:final_d[x][0])
+    final_list = []
+    i = 0
+    for key in sorted_keys:
+        final_list.append([key])
+        final_list[i].extend(final_d[key])
+        i+=1
+
+    return final_list
+    
     
 
 

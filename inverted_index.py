@@ -1,3 +1,5 @@
+from sortedcontainers import SortedDict
+import pickle
 # inverted_index = {"title":{}, "body":{}, "links":{}, "refs":{}, "infobox":{}, "categories":{}}
 
 '''
@@ -17,14 +19,14 @@ Each list consists of frequencies: [total, title, body, links, refs, info, cat]
 '''
 
 # Check why everything does not print properly :(, only infobox prints)
-inverted_index= {}
+inverted_index= SortedDict()
 index = {"total":0, "title":1, "body":2, "links":3, "refs":4, "infobox":5,"categories":6}
 
 
 
 def reset_index():
     global inverted_index
-    inverted_index = {}
+    inverted_index = SortedDict()
 
 def get_index():
     global inverted_index
@@ -45,12 +47,22 @@ def invert_index(page):
             
             inverted_index[word][doc_id][ind] += 1  #Add section frequency
             inverted_index[word][doc_id][0] += 1   #Add total frequency
+
             
 def print_index():
     for term in inverted_index.keys():
         print(term + ":\n")
         for doc_id in inverted_index[term].keys():
             print (doc_id + ":" + str(inverted_index[term][doc_id]))
+
+def write_index_to_file(file_no):
+    with open("index_"+str(file_no), "wb") as f:
+        pickler = pickle.Pickler(f)
+        
+        for i in range(0, len(inverted_index), READ_SEG_LEN):
+            pickler.dump(SortedDict(k:inverted_index[k] for k in inverted_index.islice(i, i+READ_SEG_LEN)))
+        
+        
 
     
                 
