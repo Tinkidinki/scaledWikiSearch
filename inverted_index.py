@@ -2,6 +2,7 @@ from sortedcontainers import SortedDict
 import pickle
 # inverted_index = {"title":{}, "body":{}, "links":{}, "refs":{}, "infobox":{}, "categories":{}}
 
+READ_SEG_LEN = 100
 '''
 Inverted index structure:
 {
@@ -56,11 +57,11 @@ def print_index():
             print (doc_id + ":" + str(inverted_index[term][doc_id]))
 
 def write_index_to_file(file_no):
-    with open("index_"+str(file_no), "wb") as f:
+    with open("created_files/index_"+str(file_no), "wb") as f:
         pickler = pickle.Pickler(f)
         
         for i in range(0, len(inverted_index), READ_SEG_LEN):
-            pickler.dump(SortedDict(k:inverted_index[k] for k in inverted_index.islice(i, i+READ_SEG_LEN)))
+            pickler.dump(SortedDict({k:inverted_index[k] for k in inverted_index.islice(i, i+READ_SEG_LEN)}))
         
         
 

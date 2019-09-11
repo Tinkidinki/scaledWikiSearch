@@ -5,9 +5,12 @@ import heapq
 from parse_utils import *
 from word_processing import *
 from inverted_index import *
-from file_processing import *
+# from file_processing import *
+from scalable_index import *
 
 Handler = ""
+
+PAGES_PER_FILE = 100
 
 class wikiHandler(xml.sax.ContentHandler):
     def __init__(self, index_folder):
@@ -16,6 +19,8 @@ class wikiHandler(xml.sax.ContentHandler):
         self.current_data = ""
         self.dictionary = {}
         self.index_folder = index_folder
+        self.file_no = 0
+        self.pages_so_far = 0
 
     def reset(self):
         self.page = {"id": "", "title":"", "body":"", "links":"", "categories":"", "infobox":"", "refs":""}
@@ -38,6 +43,7 @@ class wikiHandler(xml.sax.ContentHandler):
         if (tag == "page"):
             self.dictionary[self.page["id"]] = self.page["title"]
             self.page_no+=1
+            self.pages_so_far+=1
 
             self.page["body"], self.page["infobox"] = get_infobox(self.page["body"])
             self.page["body"], self.page["categories"] = get_categories(self.page["body"])
@@ -47,18 +53,25 @@ class wikiHandler(xml.sax.ContentHandler):
             for section in self.page.keys():
                 if (section == "id"): continue
                 self.page[section] = neat_tokens(self.page[section])
+                #print(self.page[section])
+            # for key in self.page.keys():
+            #     print (key)
+            #     print (self.page[key])
 
-            for key in self.page.keys():
-                print (key)
-                print (self.page[key])
-
-
+            #print("page",self.page)
             invert_index(self.page)
             self.reset()
 
         elif (tag == "mediawiki"):
-            write_index_to_file(get_index(), self.index_folder)
-            write_dic_to_file(self.dictionary, self.index_folder)
+            write_index_to_file(self.file_no)
+            # write_dic_to_file(self.dictionary, self.index_folder)
+            scale_index(self.file_no+1)
+        
+        if self.pages_so_far == PAGES_PER_FILE:
+            write_index_to_file(self.file_no)
+            reset_index()
+            self.file_no += 1
+            self.pages_so_far = 0
     
    
        
@@ -74,8 +87,8 @@ if (__name__ == "__main__"):
 
     Handler = wikiHandler("index")
     parser.setContentHandler( Handler )
-    parser.parse("single_page.xml")
-    print_index()
+    parser.parse("enwiki_data.xml")
+    #print_index()
 
 def index_wrapper(data_dump, index_folder):
     parser = xml.sax.make_parser()

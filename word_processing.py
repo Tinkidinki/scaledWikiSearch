@@ -25,10 +25,17 @@ def stem(word):
         stem_dict[word] = ps.stem(word)
         return stem_dict[word]
 
+def remove_non_alpha(s):
+    return re.sub("[^a-zA-Z]+", " ", s)
+
+
 '''Goal: Takes a string, and returns a neat list of words'''
 def neat_tokens(s):
     # s = remove_url(s)
+    #print("CALLEDDDD")
     s = remove_punctuation(s)
+    s = remove_non_alpha(s)
+    #print(s)
     s = s.lower()
     words = s.split()
     words = remove_stop_words(words)
