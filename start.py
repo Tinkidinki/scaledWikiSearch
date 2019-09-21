@@ -1,6 +1,7 @@
 import xml.sax
 import re
 import heapq
+import shelve
 
 from parse_utils import *
 from word_processing import *
@@ -8,9 +9,10 @@ from inverted_index import *
 # from file_processing import *
 from scalable_index import *
 
+get_titles = shelve.open("created_files/get_titles")
 Handler = ""
 
-PAGES_PER_FILE = 100
+PAGES_PER_FILE = 40000
 
 class wikiHandler(xml.sax.ContentHandler):
     def __init__(self, index_folder):
@@ -21,6 +23,7 @@ class wikiHandler(xml.sax.ContentHandler):
         self.index_folder = index_folder
         self.file_no = 0
         self.pages_so_far = 0
+        self.x=0
 
     def reset(self):
         self.page = {"id": "", "title":"", "body":"", "links":"", "categories":"", "infobox":"", "refs":""}
@@ -30,6 +33,8 @@ class wikiHandler(xml.sax.ContentHandler):
     def startElement(self, tag, attributes):
         self.current_data = tag
         self.page["id"] = str(self.page_no)
+        print(self.x)
+        self.x+=1
         
         
     def characters(self, content):
@@ -66,12 +71,17 @@ class wikiHandler(xml.sax.ContentHandler):
             write_index_to_file(self.file_no)
             # write_dic_to_file(self.dictionary, self.index_folder)
             scale_index(self.file_no+1)
+            get_titles.update(self.dictionary)
+            get_titles.close()
         
         if self.pages_so_far == PAGES_PER_FILE:
             write_index_to_file(self.file_no)
             reset_index()
             self.file_no += 1
             self.pages_so_far = 0
+
+            get_titles.update(self.dictionary)
+            self.dictionary = {}
     
    
        
@@ -111,9 +121,6 @@ def regular_query(query):
     output_ids = heapq.nlargest(10, index["body"][word], index["body"][word].get)
     return [dictionary[output_id] for output_id in output_ids]
     
-
-
-
 def search_wrapper(queries):
     outputs = []
     for query in queries:

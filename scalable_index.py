@@ -5,7 +5,7 @@ import shelve
 
 
 READ_SEG_LEN = 100
-WRITE_SEG_LEN = 10000
+WRITE_SEG_LEN = 100000
 '''
 Assumption: There are f files of inverted indices of the following form.
 Both the outer term dictionary, and the inner posting lists are dicts.
@@ -166,7 +166,7 @@ def scale_index(num_files):
             write_buffer = {}
 
     # Shelve the leftover write_buffer
-    index.update(write_buffer)
+    #index.update(write_buffer)
     #print(dict(index))
     index.close()
 
