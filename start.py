@@ -97,6 +97,7 @@ if (__name__ == "__main__"):
 
     Handler = wikiHandler("index")
     parser.setContentHandler( Handler )
+    # IMPORTANT: Replace the below file name with the path to your Wikipedia xml data dump
     parser.parse("enwiki_data.xml")
     #print_index()
 
