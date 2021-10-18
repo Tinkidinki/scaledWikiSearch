@@ -31,122 +31,123 @@ You will be prompted with:
 The following examples are for the `large.xml` data dump.
 
 - Find articles that contain a certain term anywhere in the article
-    - Input:
+    - Input
         ```
         basketball
         ```
-Output:
-```
-Time taken: 0.010598710999999872 s
-2014–15 Louisville Cardinals men's basketball team
-    
-2014–15 Dayton Flyers men's basketball team
-    
-2014–15 Creighton Bluejays men's basketball team
-    
-Norman Powell
-    
-2014–15 Villanova Wildcats men's basketball team
-    
-2014–15 VCU Rams men's basketball team
-    
-2014–15 Boise State Broncos men's basketball team
-    
-Mike Jones (basketball, born 1965)
-    
-2014–15 Nebraska Cornhuskers men's basketball team
-    
-Byron Rimm II
-```
+    - Output:
+
+        ```
+        Time taken: 0.010598710999999872 s
+        2014–15 Louisville Cardinals men's basketball team
+            
+        2014–15 Dayton Flyers men's basketball team
+            
+        2014–15 Creighton Bluejays men's basketball team
+            
+        Norman Powell
+            
+        2014–15 Villanova Wildcats men's basketball team
+            
+        2014–15 VCU Rams men's basketball team
+            
+        2014–15 Boise State Broncos men's basketball team
+            
+        Mike Jones (basketball, born 1965)
+            
+        2014–15 Nebraska Cornhuskers men's basketball team
+            
+        Byron Rimm II
+        ```
 
 - Queries can have multiple terms 
 
-Input:
-```
-yoga swimming
-```
+    - Input
+        ```
+        yoga swimming
+        ```
 
-Output:
-```
-Time taken: 0.0009433650000001403 s
-England at the 2014 Commonwealth Games
-    
-Wikipedia:WikiProject Occult/Prospectus
-    
-Wikipedia:WikiProject Parapsychology/Prospectus
-    
-Matheus Santana
-    
-Eleni Avlonitou
-    
-Wikipedia:WikiProject Spam/LinkReports/mobilelandsystems.net
-    
-Wikipedia:WikiProject Spam/Local/mobilelandsystems.net
-    
-Wikipedia:WikiProject Spam/LinkReports/ewi2.com
-    
-Wikipedia:WikiProject Spam/Local/ewi2.com
-    
-Wikipedia:WikiProject Spam/LinkReports/junshiwo.com
-```
+    - Output
+        ```
+        Time taken: 0.0009433650000001403 s
+        England at the 2014 Commonwealth Games
+            
+        Wikipedia:WikiProject Occult/Prospectus
+            
+        Wikipedia:WikiProject Parapsychology/Prospectus
+            
+        Matheus Santana
+            
+        Eleni Avlonitou
+            
+        Wikipedia:WikiProject Spam/LinkReports/mobilelandsystems.net
+            
+        Wikipedia:WikiProject Spam/Local/mobilelandsystems.net
+            
+        Wikipedia:WikiProject Spam/LinkReports/ewi2.com
+            
+        Wikipedia:WikiProject Spam/Local/ewi2.com
+            
+        Wikipedia:WikiProject Spam/LinkReports/junshiwo.com
+        ```
 
 - Find articles with certain terms only in the `infobox` field. (The available fields are `title`, `body`, `link`, `ref`, `infobox` and `category`.) 
-Input:
-```
-infobox:weight
-```
-Output:
-```
-Time taken: 0.0048827220000000615 s
-Mathews Mr Easy
-    
-Vintage Ultralight SR-1 Hornet
-    
-Laureen Nussbaum
-    
-Harvey Manger-Weil
-    
-Lucian Danilencu
-    
-Marko Virtanen
-    
-Little Shasta Church
-    
-Risto Dufva
-    
-Anthony Myles (basketball, born 1982)
-    
-Pekka Tirkkonen
-```
+    - Input
+        ```
+        infobox:weight
+        ```
+    - Output:
+        ```
+        Time taken: 0.0048827220000000615 s
+        Mathews Mr Easy
+            
+        Vintage Ultralight SR-1 Hornet
+            
+        Laureen Nussbaum
+            
+        Harvey Manger-Weil
+            
+        Lucian Danilencu
+            
+        Marko Virtanen
+            
+        Little Shasta Church
+            
+        Risto Dufva
+            
+        Anthony Myles (basketball, born 1982)
+            
+        Pekka Tirkkonen
+        ```
 
 - A mix of field queries and regular queries
-Input:
-```
-India category:people politics
-```
-Output:
-```
-Time taken: 0.021459215000000142 s
-1931 New Year Honours
-    
-Anubrata Mandal
-    
-Women in positions of power
-    
-Indo-European migrations
-    
-Loktantrik Janata Dal
-    
-Wikipedia:WikiProject Spam/LinkReports/events.ccc.de
-    
-Tasmina Ahmed-Sheikh
-    
-Cases of political abuse of psychiatry in the Soviet Union
-    
-Vivek Lall
-    
-Wikipedia:Copyright problems/2014 April 26
-```
+    - Input
+        ```
+        India category:people politics
+        ```
+    - Output
+        ```
+        Time taken: 0.021459215000000142 s
+        1931 New Year Honours
+            
+        Anubrata Mandal
+            
+        Women in positions of power
+            
+        Indo-European migrations
+            
+        Loktantrik Janata Dal
+            
+        Wikipedia:WikiProject Spam/LinkReports/events.ccc.de
+            
+        Tasmina Ahmed-Sheikh
+            
+        Cases of political abuse of psychiatry in the Soviet Union
+            
+        Vivek Lall
+            
+        Wikipedia:Copyright problems/2014 April 26
+        ```
 
 # Behind the Scenes
 
