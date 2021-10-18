@@ -35,7 +35,7 @@ The following examples are for the `large.xml` data dump.
         ```
         basketball
         ```
-    - Output:
+    - Output
 
         ```
         Time taken: 0.010598710999999872 s
@@ -149,6 +149,19 @@ The following examples are for the `large.xml` data dump.
         Wikipedia:Copyright problems/2014 April 26
         ```
 
-# Behind the Scenes
+## Behind the Scenes
+
+### Parsing
+The data dump is parsed with the help of an `XMLReader` object which takes as input a `ContentHandler` object. `wikiHandler` is the content handler present in `start.py` to handle parsing of Wikipedia data dumps. During parsing, the content is tokenized after stemming and removal of stop-words. 
+
+### Inverted Index Creation
+Several inverted indices, that is, indices that maps terms to a list of documents, while also containing information about the number of occurences of the term in each document, are created during the parsing phase. The terms in each index are alphabetically sorted.
+
+### Merging Large Indices
+Given that the content in all the indices may not fit in the RAM at once, the indices are merged using the `k-way merge` algorithm, that only loads a portion of each index, and continuously writes the sorted version into the `final_index` file.  Python `shelves` are used for the final index.
+
+### tf-idf ranking
+When a query is made, the 10 document titles that are returned are the ones with the highest `tf-idf` scores. `tf-idf` stands for `term frequency-inverse document frequency`. First, each term in the query receives an inverse-document frequency (idf), which is basically inversely proportional to the number of documents in the dump that the term occurs in. The higher the idf of a term in the query, the more important the term is. Second, for each term, a list of documents are ranked based on the frequency of occurence of the term in the document (tf). Finally, every document gets a tf-idf score: (the importance of the term itself) * (the frequency with which the term occurs in the document). The top scoring documents for all terms in the query are returned. 
+
 
 
