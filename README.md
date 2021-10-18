@@ -15,16 +15,15 @@ A search engine for large data dumps from Wikipedia. Takes as input a large data
 - To start the indexing process:
 
     ```python3 start.py```
-
-This will cause the index to get created in the `created_files` folder. For the `large.xml` data dump, this process takes about a minute.
+    This will cause the index to get created in the `created_files` folder. For the `large.xml` data dump, this process takes about a minute.
 
 - To search:
 
-```python3 search.py```
+    ```python3 search.py```
 
 - You will be prompted with:
 
-```Enter query or press e to exit```
+    ```Enter query or press e to exit```
 
 
 ## Examples
