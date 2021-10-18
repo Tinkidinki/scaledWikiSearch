@@ -91,9 +91,8 @@ def scale_index(num_files):
             dict_list.append(unpickler_list[-1].load())
                 
             dp_list.append(0)
+            # Push the first term onto the heap
             heappush(heap, dict_list[-1].keys()[0])
-    #         print("HEAP")
-    #         print(heap)
 
     # print (fp_list)
     # print (dict_list)
@@ -166,7 +165,7 @@ def scale_index(num_files):
             write_buffer = {}
 
     # Shelve the leftover write_buffer
-    #index.update(write_buffer)
+    index.update(write_buffer)
     #print(dict(index))
     index.close()
 

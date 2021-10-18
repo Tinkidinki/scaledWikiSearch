@@ -3,6 +3,9 @@ import re
 import heapq
 import shelve
 
+import nltk
+nltk.download('stopwords')
+
 from parse_utils import *
 from word_processing import *
 from inverted_index import *
@@ -12,7 +15,8 @@ from scalable_index import *
 get_titles = shelve.open("created_files/get_titles")
 Handler = ""
 
-PAGES_PER_FILE = 40000
+DATA_DUMP = "large.xml"
+PAGES_PER_FILE = 400
 
 class wikiHandler(xml.sax.ContentHandler):
     def __init__(self, index_folder):
@@ -33,13 +37,13 @@ class wikiHandler(xml.sax.ContentHandler):
     def startElement(self, tag, attributes):
         self.current_data = tag
         self.page["id"] = str(self.page_no)
-        print(self.x)
         self.x+=1
         
         
     def characters(self, content):
         if (self.current_data == "title"):
             self.page["title"]+=content
+            # self.page["body"]+=content
         elif (self.current_data == "text"):
             self.page["body"]+=content
         
@@ -58,18 +62,12 @@ class wikiHandler(xml.sax.ContentHandler):
             for section in self.page.keys():
                 if (section == "id"): continue
                 self.page[section] = neat_tokens(self.page[section])
-                #print(self.page[section])
-            # for key in self.page.keys():
-            #     print (key)
-            #     print (self.page[key])
 
-            #print("page",self.page)
             invert_index(self.page)
             self.reset()
 
         elif (tag == "mediawiki"):
             write_index_to_file(self.file_no)
-            # write_dic_to_file(self.dictionary, self.index_folder)
             scale_index(self.file_no+1)
             get_titles.update(self.dictionary)
             get_titles.close()
@@ -92,19 +90,15 @@ if (__name__ == "__main__"):
 
     parser = xml.sax.make_parser()
 
-    #turn off namespaces? (what is this for?)
     parser.setFeature(xml.sax.handler.feature_namespaces, 0)
 
     Handler = wikiHandler("index")
     parser.setContentHandler( Handler )
-    # IMPORTANT: Replace the below file name with the path to your Wikipedia xml data dump
-    parser.parse("enwiki_data.xml")
-    #print_index()
+    parser.parse("data_dumps/"+DATA_DUMP)
 
 def index_wrapper(data_dump, index_folder):
     parser = xml.sax.make_parser()
 
-    #turn off namespaces? (what is this for?)
     parser.setFeature(xml.sax.handler.feature_namespaces, 0)
 
     global Handler
@@ -125,7 +119,6 @@ def regular_query(query):
 def search_wrapper(queries):
     outputs = []
     for query in queries:
-        # if (":" in query): output = field_query(query)
         output = regular_query(query)
         outputs.append(output)
     return outputs

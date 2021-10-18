@@ -5,11 +5,12 @@ from math import *
 import time
 
 #NUMBER OF DOCS
-#Make a shelf for doc_id to title
 N = 100000000
 
 mapping = {"doc_id":0, "total":1, "title":2, "body":3, "link":4, "ref":5, "infobox":6,"category":7}
+
 index = shelve.open("created_files/final_index")
+
 title = shelve.open("created_files/get_titles")
 
 def extract_regular_query(word):
@@ -28,8 +29,7 @@ def extract_regular_query(word):
         tf_idf_dic[doc_list[mapping["doc_id"]]] = log(doc_list[mapping["total"]])*log(N/idf)
     return tf_idf_dic
 
-def extract_field_query(term):
-    (field, word) = term.split(":")
+def extract_field_query(field, word):
     try:
         posting_list = index[word]
     except:
@@ -65,16 +65,20 @@ def get_titles(doc_id_list):
     return [title[x] for x in doc_id_list]
 
 def search_wrapper(query):
-    
-    query = neat_tokens(query)
 
     doc_list = []
-    for term in query:
-        if ":" in term:
-            doc_list.append(extract_field_query(term))
-        else:
-            doc_list.append(extract_regular_query(term))
 
+    terms = query.split()
+    for term in terms:
+        if ":" in term:
+            (field, word) = term.split(":") 
+            processed_list = neat_tokens(word)
+            if processed_list:
+                doc_list.append(extract_field_query(field, processed_list[0]))
+        else:
+            processed_word = neat_tokens(term)[0]
+            doc_list.append(extract_regular_query(processed_word))
+    
     doc_id_list = merge_lists(doc_list)
     output = get_titles(doc_id_list)
 

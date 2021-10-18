@@ -29,7 +29,7 @@ def remove_non_alpha(s):
     return re.sub("[^a-zA-Z]+", " ", s)
 
 
-'''Goal: Takes a string, and returns a neat list of words'''
+'''Goal: Takes a string, and returns a neat list of tokens'''
 def neat_tokens(s):
     # s = remove_url(s)
     #print("CALLEDDDD")
