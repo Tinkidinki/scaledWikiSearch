@@ -1,9 +1,10 @@
 # scaledWikiSearch
 
-A Search Engine for large data dumps from Wikipedia. Takes as input a large data dump from Wikipedia and indexes it. After indexing, quickly returns the top 10 titles of articles that best match various types of queries. 
+A search engine for large data dumps from Wikipedia. Takes as input a large data dump from Wikipedia and indexes it. After indexing, quickly returns the top 10 titles of articles that best match various types of queries. 
 
 ## Usage
 - Clone the repository
+
 ```git clone git@github.com:Tinkidinki/scaledWikiSearch.git```
 
 - There are two data dumps, `large.xml` and `small.xml` already available in the `data_dumps` folder. If you would prefer to run the search engine on some other Wikipedia data dump, add the `xml` file of the dump to this folder. 
@@ -11,12 +12,17 @@ A Search Engine for large data dumps from Wikipedia. Takes as input a large data
 - In the `start.py` file, modify the `DATA_DUMP` variable to the name of the data dump you would like to use.
 
 - To start the indexing process, do
+
 ```python3 start.py```
+
 This will cause the index to get created in the `created_files` folder. For the `large.xml` data dump, this process takes about a minute.
 
 - To search, do
+
 ```python3 search.py```
+
 You will be prompted with:
+
 ```Enter query or press e to exit```
 
 
@@ -25,10 +31,10 @@ You will be prompted with:
 The following examples are for the `large.xml` data dump.
 
 - Find articles that contain a certain term anywhere in the article
-Input:
-```
-basketball
-```
+    - Input:
+        ```
+        basketball
+        ```
 Output:
 ```
 Time taken: 0.010598710999999872 s
